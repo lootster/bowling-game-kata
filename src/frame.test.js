@@ -60,3 +60,69 @@ describe("Test completeness of frame", () => {
     expect(lastFrame.isComplete()).toBeTruthy();
   });
 });
+
+describe("test calculating score of a frame", () => {
+  test("an incompete frame does not have a score", () => {
+    let frame = new Frame();
+    expect(() => frame.frameScore()).toThrow("The frame is not completed yet");
+  });
+
+  test("score of a normal frame is just the sum of the pins in all rolls", () => {
+    let frame = new Frame();
+    let nextFrame = new Frame();
+    frame.setNextFrame(nextFrame);
+
+    frame.addRoll(1);
+    frame.addRoll(1);
+
+    expect(frame.frameScore()).toBe(2);
+  });
+
+  test("score of a last frame is just the sum of the pins in all rolls", () => {
+    let frame = new Frame();
+
+    frame.addRoll(10);
+    frame.addRoll(1);
+    frame.addRoll(1);
+
+    expect(frame.frameScore()).toBe(12);
+  });
+  test("score of a spare frame is the sum of the pins in all rolls, plus the pins in the next roll", () => {
+    let frame = new Frame();
+    let nextFrame = new Frame();
+    frame.setNextFrame(nextFrame);
+
+    frame.addRoll(5);
+    frame.addRoll(5);
+    nextFrame.addRoll(2);
+
+    expect(frame.frameScore()).toBe(12);
+  });
+
+  describe("score of a strike frame is the sum of the pins in all rolls, plus the pins in the next two rolls", () => {
+    test("when the next frame is not a spike", () => {
+      let frame = new Frame();
+      let nextFrame = new Frame();
+      frame.setNextFrame(nextFrame);
+
+      frame.addRoll(10);
+      nextFrame.addRoll(1);
+      nextFrame.addRoll(1);
+
+      expect(frame.frameScore()).toBe(12);
+    });
+    test("when the next frame is a spike", () => {
+      let frame = new Frame();
+      let secondFrame = new Frame();
+      let thirdFrame = new Frame();
+      frame.setNextFrame(secondFrame);
+      secondFrame.setNextFrame(thirdFrame);
+
+      frame.addRoll(10);
+      secondFrame.addRoll(10);
+      thirdFrame.addRoll(10);
+
+      expect(frame.frameScore()).toBe(30);
+    });
+  });
+});
