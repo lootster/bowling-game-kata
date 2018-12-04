@@ -15,11 +15,19 @@ module.exports = class Frame {
   }
 
   isComplete() {
-    if (this.isStrike()) return true;
-    return this.rolls.length == 2;
+    if (this.isTheLastOne()) {
+      if (this.firstRollHitTenPins()) {
+        return this.rolls.length === 3;
+      } else {
+        return this.rolls.length === 2;
+      }
+    } else {
+      if (this.firstRollHitTenPins()) return this.rolls.length === 1;
+      return this.rolls.length === 2;
+    }
   }
 
-  isStrike() {
-    return this.rolls.length == 1 && this.rolls[0] == 10;
+  firstRollHitTenPins() {
+    return this.rolls[0] === 10;
   }
 };
