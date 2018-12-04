@@ -52,4 +52,11 @@ describe("Test completeness of frame", () => {
     lastFrame.addRoll(0);
     expect(lastFrame.isComplete()).toBeTruthy();
   });
+  test("a complete last frame with spare", () => {
+    let lastFrame = new Frame();
+    lastFrame.addRoll(5);
+    lastFrame.addRoll(5);
+    lastFrame.addRoll(3);
+    expect(lastFrame.isComplete()).toBeTruthy();
+  });
 });

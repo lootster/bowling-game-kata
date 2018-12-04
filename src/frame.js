@@ -16,7 +16,7 @@ module.exports = class Frame {
 
   isComplete() {
     if (this.isTheLastOne()) {
-      if (this.firstRollHitTenPins()) {
+      if (this.firstRollHitTenPins() || this.isSpareFrame()) {
         return this.rolls.length === 3;
       } else {
         return this.rolls.length === 2;
@@ -29,5 +29,9 @@ module.exports = class Frame {
 
   firstRollHitTenPins() {
     return this.rolls[0] === 10;
+  }
+
+  isSpareFrame() {
+    return this.rolls[0] + this.rolls[1] === 10;
   }
 };
