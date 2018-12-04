@@ -1,13 +1,16 @@
+const NO_OF_FRAMES_IN_BOWLING_GAME = 10;
+
 module.exports = class Frame {
-  constructor() {
+  constructor(frameIndex) {
     this.rolls = [];
+    this.frameIndex = frameIndex;
   }
   addRoll(pins) {
     this.rolls.push(pins);
   }
 
   isTheLastOne() {
-    return this.nextFrame === undefined;
+    return this.frameIndex == NO_OF_FRAMES_IN_BOWLING_GAME;
   }
 
   setNextFrame(nextFrame) {
